@@ -28,6 +28,7 @@ class MainView : View("My View") {
     private val labyrinthHeight: TextField by fxid()
     private val errors: Label by fxid()
     private val recreateLabyrinth: Button by fxid()
+    private val passLabyrinth: Button by fxid()
 
     lateinit var labyrinth: ResizableCanvas
 
@@ -44,6 +45,12 @@ class MainView : View("My View") {
 
         configureCanvas()
         configureRightMenu()
+        configureTextFields()
+    }
+
+    private fun configureTextFields() {
+        labyrinthWidth.text = "${getLabyrinth()[0].size}"
+        labyrinthHeight.text = "${getLabyrinth().size}"
     }
 
     private fun configureRightMenu() {
@@ -52,8 +59,14 @@ class MainView : View("My View") {
                 labyrinthInitialization(labyrinthWidth.text.toInt(), labyrinthHeight.text.toInt())
                 errors.text = ""
                 labyrinth.autosize()
+                configureTextFields()
             }
             else errors.text = "Некорректный ввод."
+        }
+
+        passLabyrinth.onLeftClick {
+            LabyrinthUtilities.Pathfinder.passLabyrinth(getLabyrinth()[1][1])
+            ApplicationUtilities.updateCanvas()
         }
     }
 
