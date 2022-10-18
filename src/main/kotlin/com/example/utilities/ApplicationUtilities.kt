@@ -4,16 +4,26 @@ import com.example.domain.Cell
 import com.example.domain.CellType
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Paint
-import java.awt.Color
 import kotlin.properties.Delegates
 
 object ApplicationUtilities {
     private var CELL_SIZE by Delegates.notNull<Double>()
+    private lateinit var graphicsContext: GraphicsContext
+
+    fun initiateContext(context: GraphicsContext) {
+        graphicsContext = context
+    }
+
+    fun updateCanvas() =
+        graphicsContext.canvas.autosize()
 
     fun drawLabyrinthOnScreen(
         context: GraphicsContext,
         labyrinth: Array<Array<Cell>>,
     ) {
+        if (!this::graphicsContext.isInitialized)
+            error("Graphics context is not initialized!")
+
         CELL_SIZE = if (labyrinth.size > labyrinth[0].size) {
             println("${labyrinth.size}, ${labyrinth[0].size}")
             minOf(context.canvas.height, context.canvas.width) / labyrinth.size
