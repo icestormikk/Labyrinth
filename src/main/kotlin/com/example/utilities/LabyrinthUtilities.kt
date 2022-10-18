@@ -9,7 +9,9 @@ private const val START_CELL_X = 1
 private const val START_CELL_Y = 1
 
 object LabyrinthUtilities {
-    private lateinit var labyrinth: Array<Array<Cell>>
+    private var labyrinth: Array<Array<Cell>> = arrayOf(arrayOf())
+
+    object Builder {
 
     fun labyrinthInitialization(labyrinthSize: Int) {
         labyrinthInitialization(labyrinthSize, labyrinthSize)
@@ -72,9 +74,79 @@ object LabyrinthUtilities {
         labyrinth[firstCell.x + addX][firstCell.y + addY].type = CellType.VISITED
     }
 
-    private fun getRandomDirection(): Direction =
-        with (Direction.values()) {
-            val randomDirectionCode = (START_CELL_X..this.size).random()
-            first { it.code == randomDirectionCode }
+    object Pathfinder {
+        private lateinit var START_CELL: Cell
+        private lateinit var EXIT_CELL: Cell
+
+        fun setStartCell(cell: Cell) { START_CELL = cell; START_CELL.type = ENTER }
+        fun setExitCell(cell: Cell) { EXIT_CELL = cell; EXIT_CELL.type = EXIT }
+        fun passLabyrinth(cell: Cell) {
+            if (!this::START_CELL.isInitialized) {
+                println("Start cell was not initialized! Default initialization: [1,1]")
+                setStartCell(labyrinth[1][1])
+            }
+            if (!this::EXIT_CELL.isInitialized) {
+                with (labyrinth) {
+                    println("Exit cell was not initialized! Default initialization: [${size - 2}, ${size - 2}]")
+                    setExitCell(this[size - 2][this[0].size - 2])
+                }
+            }
+            setStartCell(labyrinth[1][1])
+            with (labyrinth) {
+                setExitCell(this[size - 2][this[0].size - 2])
+            }
+
+            passLabyrinthRecursive(cell)
+        }
+
+        private fun passLabyrinthRecursive(cell: Cell) {
+            if (cell.type != EXIT) {
+                cell.type = VISITED
+                while (cell.hasNotVisitedNeighbours<PathfinderDirection>()) {
+                    with(cell.getNeighbourCells().random()) {
+                        previousCellCoordinates = Pair(cell.row, cell.column)
+                        passLabyrinthRecursive(this)
+                    }
+                }
+            } else drawPath(cell)
+        }
+
+        private fun drawPath(cell: Cell) {
+            if (cell.previousCellCoordinates != null) {
+                cell.type = PATH
+                drawPath(labyrinth[cell.previousCellCoordinates!!.first][cell.previousCellCoordinates!!.second])
+            }
+        }
+    }
+
+    fun getLabyrinth() = labyrinth.copyOf()
+
+    private fun Cell.getNeighbourCells(): Collection<Cell> =
+        PathfinderDirection.values().filter {
+            it.predicate(labyrinth, this)
+        }.map { labyrinth[this.row + it.vector.first][this.column + it.vector.second] }
+
+    private inline fun <reified T> Cell.hasNotVisitedNeighbours(): Boolean =
+        when (T::class) {
+            BuilderDirection::class -> BuilderDirection.values().any { it.predicate(labyrinth, this) }
+            PathfinderDirection::class -> PathfinderDirection.values().any { it.predicate(labyrinth, this) }
+            else -> error("Unrecognized class: ${T::class}")
+        }
+
+    private inline fun <reified T> getRandomDirection(): T =
+        when (T::class) {
+            BuilderDirection::class -> {
+                with (BuilderDirection.values()) {
+                    val randomDirectionCode = (START_CELL_X..this.size).random()
+                    first { it.code == randomDirectionCode } as T
+                    }
+            }
+            PathfinderDirection::class -> {
+                with (PathfinderDirection.values()) {
+                    val randomDirectionCode = (START_CELL_X..this.size).random()
+                    first { it.code == randomDirectionCode } as T
+                }
+            }
+            else -> error("Unrecognized class: ${T::class}")
         }
 }
