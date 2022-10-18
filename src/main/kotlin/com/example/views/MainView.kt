@@ -41,7 +41,7 @@ class MainView : View("My View") {
             prefWidthProperty().bind(root.widthProperty().multiply(CONTROLS_CONTAINER_SCALE_MULTIPLIER))
             prefHeightProperty().bind(root.heightProperty())
         }
-        labyrinthInitialization(80, 80)
+        labyrinthInitialization(DEFAULT_LABYRINTH_SIZE, DEFAULT_LABYRINTH_SIZE)
 
         configureCanvas()
         configureRightMenu()
@@ -107,10 +107,7 @@ class MainView : View("My View") {
             root.prefHeight
 
         override fun resize(width: Double, height: Double) {
-            ApplicationUtilities.drawLabyrinthOnScreen(
-                context,
-                getLabyrinth()
-            )
+            ApplicationUtilities.drawLabyrinthOnScreen(getLabyrinth())
         }
     }
 }
