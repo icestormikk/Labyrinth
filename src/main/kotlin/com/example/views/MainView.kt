@@ -30,11 +30,11 @@ class MainView : View("My View") {
 
     init {
         with (canvasContainer) {
-            prefWidthProperty().bind(root.widthProperty().multiply(2.0/3))
+            prefWidthProperty().bind(root.widthProperty().multiply(CANVAS_CONTAINER_SCALE_MULTIPLIER))
             prefHeightProperty().bind(root.heightProperty())
         }
         with (controlsContainer) {
-            prefWidthProperty().bind(root.widthProperty().multiply(1.0/3))
+            prefWidthProperty().bind(root.widthProperty().multiply(CONTROLS_CONTAINER_SCALE_MULTIPLIER))
             prefHeightProperty().bind(root.heightProperty())
         }
         labyrinthInitialization(80, 80)
