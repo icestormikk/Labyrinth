@@ -38,7 +38,11 @@ object ApplicationUtilities {
             row.forEach { cell ->
                 context.fill = when (cell.type) {
                     CellType.WALL -> Paint.valueOf("#000000")
-                    else -> Paint.valueOf("#EFEFEF")
+                    CellType.VISITED -> Paint.valueOf("#0000FF")
+                    CellType.ENTER -> Paint.valueOf("#00FF00")
+                    CellType.EXIT -> Paint.valueOf("#FF0000")
+                    CellType.PATH -> Paint.valueOf("#FFFF00")
+                    else -> Paint.valueOf("#FFFFFF")
                 }
                 context.fillRect(
                     cell.x * CELL_SIZE,
