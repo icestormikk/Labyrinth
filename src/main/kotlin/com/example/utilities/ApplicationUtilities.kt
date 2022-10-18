@@ -25,12 +25,10 @@ object ApplicationUtilities {
             error("Graphics context is not initialized!")
 
         CELL_SIZE = if (labyrinth.size > labyrinth[0].size) {
-            println("${labyrinth.size}, ${labyrinth[0].size}")
-            minOf(context.canvas.height, context.canvas.width) / labyrinth.size
+            minOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth.size
         }
         else {
-            println("SECOND")
-            minOf(context.canvas.height, context.canvas.width) / labyrinth[0].size
+            minOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth[0].size
         }
 
         context.clearRect(0.0,0.0, context.canvas.width, context.canvas.height)
