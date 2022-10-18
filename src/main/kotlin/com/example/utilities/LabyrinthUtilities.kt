@@ -2,7 +2,15 @@ package com.example.utilities
 
 import com.example.domain.Cell
 import com.example.domain.CellType
-import com.example.domain.Direction
+import com.example.domain.CellType.EMPTY
+import com.example.domain.CellType.ENTER
+import com.example.domain.CellType.EXIT
+import com.example.domain.CellType.VISITED
+import com.example.domain.BuilderDirection
+import com.example.domain.CellType.PATH
+import com.example.domain.PathfinderDirection
+import tornadofx.*
+import kotlin.error
 import kotlin.math.abs
 
 private const val START_CELL_X = 1
@@ -31,23 +39,22 @@ object LabyrinthUtilities {
             }*/
         }
 
-    fun getLabyrinth() = labyrinth.copyOf()
-
-    private fun fillLabyrinth(cell: Cell) {
-        do {
-            with (getRandomDirection()) {
-                cell.type = CellType.VISITED
-                if (predicate(labyrinth, cell)) {
-                    val nextCell = labyrinth[cell.x + vector.first][cell.y + vector.second]
-                    removeWall(cell, nextCell)
-                    fillLabyrinth(nextCell)
+        private fun fillLabyrinth(cell: Cell) {
+            do {
+                with (getRandomDirection<BuilderDirection>()) {
+                    cell.type = VISITED
+                    if (predicate(labyrinth, cell) || Math.random() < 0.1) {
+                        if (cell.row + vector.first > 0 && cell.row + vector.first < labyrinth.size &&
+                            cell.column + vector.second > 0 && cell.column + vector.second < labyrinth[0].size
+                        ) {
+                            val nextCell = labyrinth[cell.row + vector.first][cell.column + vector.second]
+                            removeWall(cell, nextCell)
+                            fillLabyrinth(nextCell)
+                        }
+                    }
                 }
-            }
-        } while (cell.hasNotVisitedNeighbours())
-    }
-
-    private fun Cell.hasNotVisitedNeighbours(): Boolean =
-        Direction.values().any { it.predicate(labyrinth, this) }
+            } while (cell.hasNotVisitedNeighbours<BuilderDirection>())
+        }
 
         @Suppress("ComplexCondition")
         private fun createLabyrinthBase(labyrinthWidth: Int, labyrinthHeight: Int): Array<Array<Cell>> {
@@ -67,14 +74,15 @@ object LabyrinthUtilities {
             }
         }
 
-    private fun removeWall(firstCell: Cell, secondCell: Cell) {
-        val xDifference = secondCell.x - firstCell.x
-        val yDifference = secondCell.y - firstCell.y
+        private fun removeWall(firstCell: Cell, secondCell: Cell) {
+            val xDifference = secondCell.row - firstCell.row
+            val yDifference = secondCell.column - firstCell.column
 
-        val addX = if (xDifference != 0) xDifference / abs(xDifference) else 0
-        val addY = if (yDifference != 0) yDifference / abs(yDifference) else 0
+            val addX = if (xDifference != 0) xDifference / abs(xDifference) else 0
+            val addY = if (yDifference != 0) yDifference / abs(yDifference) else 0
 
-        labyrinth[firstCell.x + addX][firstCell.y + addY].type = CellType.VISITED
+            labyrinth[firstCell.row + addX][firstCell.column + addY].type = VISITED
+        }
     }
 
     object Pathfinder {
