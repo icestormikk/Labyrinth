@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <FlowPane fx:id="canvasContainer" alignment="CENTER" columnHalignment="CENTER" prefHeight="800.0" prefWidth="660.0" />
-      <VBox fx:id="controlsContainer" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="426.0" style="-fx-border-color: lightgray; -fx-border-width: 0 0 0 1;">
+      <VBox fx:id="controlsContainer" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="800.0" prefWidth="426.0" style="-fx-border-color: lightgray; -fx-border-width: 0 0 0 1;">
          <children>
             <FlowPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
@@ -38,7 +38,7 @@
             </VBox>
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Построить новый лабиринт:">
+                  <Label maxWidth="1.7976931348623157E308" text="Построить новый лабиринт">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
@@ -81,7 +81,7 @@
                         <Insets top="4.0" />
                      </VBox.margin>
                   </FlowPane>
-                  <Label layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="361.0" text="Примечание: не рекомендуется создавать лабиринты размером более 500x500 клеток" textFill="#979797" textOverrun="CLIP" wrapText="true">
+                  <Label layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="400.0" text="Примечание: не рекомендуется создавать лабиринты размером более 500x500 клеток" textFill="#979797" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
@@ -106,6 +106,236 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="21.0" layoutY="93.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="Цветовые настройки">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="2.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label maxWidth="1.7976931348623157E308" text="Каждая клетка, в зависимости от типа, имеет свой цвет" textFill="#979797" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <FlowPane>
+                     <children>
+                        <Label text="Свободная клетка:" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="23.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                  </FlowPane>
+                  <FlowPane layoutX="10.0" layoutY="71.0">
+                     <children>
+                        <Label text="Стена: " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="113.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="4.0" />
+                     </VBox.margin>
+                  </FlowPane>
+                  <FlowPane layoutX="10.0" layoutY="71.0">
+                     <children>
+                        <Label text="Посещенная клетка:" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="4.0" />
+                     </VBox.margin>
+                  </FlowPane>
+                  <FlowPane layoutX="10.0" layoutY="129.0">
+                     <children>
+                        <Label text="Найденный путь: " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="30.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="4.0" />
+                     </VBox.margin>
+                  </FlowPane>
+                  <Label fx:id="errors1" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="#d31111">
+                     <font>
+                        <Font name="Calibri" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="6.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button fx:id="recreateLabyrinth1" mnemonicParsing="false" text="Применить настройки">
+                     <VBox.margin>
+                        <Insets top="2.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="21.0" layoutY="93.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="Параметры ключевых точек">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <FlowPane>
+                     <children>
+                        <Label text="Координаты начальной точки:  " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="275.0" layoutY="13.0" text="(" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="labyrinthWidth1" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
+                           <font>
+                              <Font name="Calibri" size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="10.0" layoutY="13.0" text=", " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="labyrinthWidth11" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
+                           <font>
+                              <Font name="Calibri" size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="228.0" layoutY="13.0" text=")" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </FlowPane>
+                  <FlowPane>
+                     <children>
+                        <Label text="Координаты конечной точки:  " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="275.0" layoutY="13.0" text="(" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="labyrinthWidth1" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
+                           <font>
+                              <Font name="Calibri" size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="10.0" layoutY="13.0" text=", " textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="labyrinthWidth11" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
+                           <font>
+                              <Font name="Calibri" size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="228.0" layoutY="13.0" text=")" textFill="#6b6b6b">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </FlowPane>
+                  <Label layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ЛКМ по квадрату на холсте, где хотите разместить начальную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label layoutX="10.0" layoutY="109.0" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ПКМ по квадрату на холсте, где хотите разместить конечную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="errors2" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="#d31111">
+                     <font>
+                        <Font name="Calibri" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="6.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button fx:id="recreateLabyrinth2" mnemonicParsing="false" prefWidth="100.0" text="Применить">
+                     <VBox.margin>
+                        <Insets top="2.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
                </padding>
