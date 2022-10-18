@@ -1,3 +1,3 @@
 
-rootProject.name = "LabirinthTFX"
+rootProject.name = "LabyrinthTFX"
 
