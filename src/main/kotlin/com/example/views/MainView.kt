@@ -1,10 +1,10 @@
 package com.example.views
 
 import com.example.utilities.ApplicationUtilities
+import com.example.utilities.LabyrinthUtilities
 import com.example.utilities.LabyrinthUtilities.getLabyrinth
-import com.example.utilities.LabyrinthUtilities.labyrinthInitialization
+import com.example.utilities.LabyrinthUtilities.Builder.labyrinthInitialization
 import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -13,7 +13,11 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import tornadofx.*
 
-private const val MIN_LABYRINTH_SIZE = 5
+private const val MIN_LABYRINTH_SIZE = 11
+private const val CANVAS_SCALE_MULTIPLIER = 0.9
+private const val DEFAULT_LABYRINTH_SIZE = 80
+private const val CANVAS_CONTAINER_SCALE_MULTIPLIER = 2.0 / 3
+private const val CONTROLS_CONTAINER_SCALE_MULTIPLIER = 1.0 / 3
 
 class MainView : View("My View") {
     override val root: HBox by fxml()
@@ -25,8 +29,7 @@ class MainView : View("My View") {
     private val errors: Label by fxid()
     private val recreateLabyrinth: Button by fxid()
 
-    private lateinit var labyrinth: ResizableCanvas
-    private lateinit var context: GraphicsContext
+    lateinit var labyrinth: ResizableCanvas
 
     init {
         with (canvasContainer) {
@@ -56,10 +59,10 @@ class MainView : View("My View") {
 
     private fun configureCanvas() {
         labyrinth = ResizableCanvas()
-        context = labyrinth.graphicsContext2D
+        ApplicationUtilities.initiateContext(labyrinth.graphicsContext2D)
 
         with (labyrinth) {
-            widthProperty().bind(canvasContainer.widthProperty().multiply(0.9))
+            widthProperty().bind(canvasContainer.widthProperty().multiply(CANVAS_SCALE_MULTIPLIER))
             heightProperty().bind(canvasContainer.heightProperty())
         }
 
@@ -74,7 +77,7 @@ class MainView : View("My View") {
             false
         }
 
-    internal inner class ResizableCanvas: Canvas() {
+    inner class ResizableCanvas: Canvas() {
         override fun isResizable(): Boolean =
             true
 
