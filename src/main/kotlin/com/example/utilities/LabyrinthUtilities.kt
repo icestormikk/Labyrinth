@@ -13,20 +13,23 @@ object LabyrinthUtilities {
 
     object Builder {
 
-    fun labyrinthInitialization(labyrinthSize: Int) {
-        labyrinthInitialization(labyrinthSize, labyrinthSize)
-    }
+        fun labyrinthInitialization(labyrinthSize: Int) {
+            labyrinthInitialization(labyrinthSize, labyrinthSize)
+        }
+        fun labyrinthInitialization(labyrinthWidth: Int, labyrinthHeight: Int) {
+            labyrinth = createLabyrinthBase(labyrinthWidth, labyrinthHeight)
+            fillLabyrinth(labyrinth[START_CELL_X][START_CELL_Y])
 
-    fun labyrinthInitialization(labyrinthWidth: Int, labyrinthHeight: Int) {
-        labyrinth = createLabyrinthBase(labyrinthWidth, labyrinthHeight)
-        fillLabyrinth(labyrinth[START_CELL_X][START_CELL_Y])
-        /*labyrinth.forEach { row ->
-            row.forEach { cell ->
-                print("(${cell.x}, ${cell.y}) ")
+            labyrinth.forEach {
+                it.forEach { cell -> if (cell.type == VISITED) cell.type = EMPTY }
             }
-            println()
-        }*/
-    }
+            /*labyrinth.forEach {
+                it.forEach { cell ->
+                    print("(${cell.row}, ${cell.column}) ")
+                }
+                println()
+            }*/
+        }
 
     fun getLabyrinth() = labyrinth.copyOf()
 
