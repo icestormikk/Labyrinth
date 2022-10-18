@@ -18,7 +18,6 @@ object ApplicationUtilities {
         graphicsContext.canvas.autosize()
 
     fun drawLabyrinthOnScreen(
-        context: GraphicsContext,
         labyrinth: Array<Array<Cell>>,
     ) {
         if (!this::graphicsContext.isInitialized)
@@ -31,10 +30,10 @@ object ApplicationUtilities {
             minOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth[0].size
         }
 
-        context.clearRect(0.0,0.0, context.canvas.width, context.canvas.height)
+        graphicsContext.clearRect(0.0,0.0, graphicsContext.canvas.width, graphicsContext.canvas.height)
         labyrinth.forEach { row ->
             row.forEach { cell ->
-                context.fill = when (cell.type) {
+                graphicsContext.fill = when (cell.type) {
                     CellType.WALL -> Paint.valueOf("#000000")
                     CellType.VISITED -> Paint.valueOf("#0000FF")
                     CellType.ENTER -> Paint.valueOf("#00FF00")
@@ -42,9 +41,9 @@ object ApplicationUtilities {
                     CellType.PATH -> Paint.valueOf("#FFFF00")
                     else -> Paint.valueOf("#FFFFFF")
                 }
-                context.fillRect(
-                    cell.x * CELL_SIZE,
-                    cell.y * CELL_SIZE,
+                graphicsContext.fillRect(
+                    cell.column * CELL_SIZE,
+                    cell.row * CELL_SIZE,
                     CELL_SIZE, CELL_SIZE
                 )
             }
