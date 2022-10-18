@@ -44,23 +44,23 @@ object LabyrinthUtilities {
     private fun Cell.hasNotVisitedNeighbours(): Boolean =
         Direction.values().any { it.predicate(labyrinth, this) }
 
-    @Suppress("ComplexCondition")
-    private fun createLabyrinthBase(labyrinthWidth: Int, labyrinthHeight: Int): Array<Array<Cell>> {
-        val compatibleWidth = if (labyrinthWidth % 2 == 0) labyrinthWidth - 1 else labyrinthWidth
-        val compatibleHeight = if (labyrinthHeight % 2 == 0) labyrinthHeight - 1 else labyrinthHeight
+        @Suppress("ComplexCondition")
+        private fun createLabyrinthBase(labyrinthWidth: Int, labyrinthHeight: Int): Array<Array<Cell>> {
+            val compatibleWidth = if (labyrinthWidth % 2 == 0) labyrinthWidth - 1 else labyrinthWidth
+            val compatibleHeight = if (labyrinthHeight % 2 == 0) labyrinthHeight - 1 else labyrinthHeight
 
-        return Array(compatibleWidth) { rowIndex ->
-            Array(compatibleHeight) { columnIndex ->
-                Cell(
-                    x = rowIndex,
-                    y = columnIndex,
-                    type = if (columnIndex % 2 == 0 || rowIndex % 2 == 0)
-                        CellType.WALL
-                    else CellType.EMPTY
-                )
+            return Array(compatibleHeight) { rowIndex ->
+                Array(compatibleWidth) { columnIndex ->
+                    Cell(
+                        row = rowIndex,
+                        column = columnIndex,
+                        type = if (columnIndex % 2 == 0 || rowIndex % 2 == 0)
+                            CellType.WALL
+                        else EMPTY
+                    )
+                }
             }
         }
-    }
 
     private fun removeWall(firstCell: Cell, secondCell: Cell) {
         val xDifference = secondCell.x - firstCell.x
