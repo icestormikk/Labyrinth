@@ -1,5 +1,6 @@
 package com.example.utilities
 
+import com.example.configuration.SERVICE_CELL_TYPES
 import com.example.domain.Cell
 import com.example.domain.CellType
 import com.example.domain.CellType.EMPTY
@@ -8,7 +9,9 @@ import com.example.domain.CellType.EXIT
 import com.example.domain.CellType.VISITED
 import com.example.domain.BuilderDirection
 import com.example.domain.CellType.PATH
+import com.example.domain.CellType.WALL
 import com.example.domain.PathfinderDirection
+import com.example.utilities.LabyrinthUtilities.Pathfinder.EXIT_CELL
 import tornadofx.*
 import kotlin.error
 import kotlin.math.abs
@@ -25,20 +28,25 @@ object LabyrinthUtilities {
             labyrinthInitialization(labyrinthSize, labyrinthSize)
         }
         fun labyrinthInitialization(labyrinthWidth: Int, labyrinthHeight: Int) {
-            labyrinth = createLabyrinthBase(labyrinthWidth, labyrinthHeight)
-            fillLabyrinth(labyrinth[START_CELL_X][START_CELL_Y])
+            with (createLabyrinthBase(labyrinthWidth, labyrinthHeight)) {
+                labyrinth = this
+                fillLabyrinth(this[START_CELL_X][START_CELL_Y])
 
-            labyrinth.forEach {
-                it.forEach { cell -> if (cell.type == VISITED) cell.type = EMPTY }
+                Pathfinder.setEnterCell(1, 1)
+                Pathfinder.setExitCell(size - 2,this[0].size - 2)
+
+                clearLabyrinth()
             }
-            /*labyrinth.forEach {
-                it.forEach { cell ->
-                    print("(${cell.row}, ${cell.column}) ")
-                }
-                println()
-            }*/
         }
 
+        fun clearLabyrinth() {
+            labyrinth.forEach {
+                it.forEach { cell -> if (cell.type !in SERVICE_CELL_TYPES) cell.type = EMPTY }
+            }
+            labyrinth[EXIT_CELL.row][EXIT_CELL.column] = EXIT_CELL
+        }
+
+        @SuppressWarnings("NestedBlockDepth", "ComplexCondition")
         private fun fillLabyrinth(cell: Cell) {
             do {
                 with (getRandomDirection<BuilderDirection>()) {
@@ -66,9 +74,7 @@ object LabyrinthUtilities {
                     Cell(
                         row = rowIndex,
                         column = columnIndex,
-                        type = if (columnIndex % 2 == 0 || rowIndex % 2 == 0)
-                            CellType.WALL
-                        else EMPTY
+                        type = if (columnIndex % 2 == 0 || rowIndex % 2 == 0) WALL else EMPTY
                     )
                 }
             }
@@ -86,25 +92,38 @@ object LabyrinthUtilities {
     }
 
     object Pathfinder {
-        private lateinit var START_CELL: Cell
-        private lateinit var EXIT_CELL: Cell
+        lateinit var START_CELL: Cell
+            private set
+        lateinit var EXIT_CELL: Cell
+            private set
 
-        fun setStartCell(cell: Cell) { START_CELL = cell; START_CELL.type = ENTER }
-        fun setExitCell(cell: Cell) { EXIT_CELL = cell; EXIT_CELL.type = EXIT }
+        fun setEnterCell(rowIndex: Int, columnIndex: Int) {
+            if (labyrinth[rowIndex][columnIndex].type != WALL) {
+                if (this::START_CELL.isInitialized)
+                    START_CELL.type = EMPTY
+                START_CELL = labyrinth[rowIndex][columnIndex]
+                START_CELL.type = ENTER
+            }
+        }
+        fun setExitCell(rowIndex: Int, columnIndex: Int) {
+            if (labyrinth[rowIndex][columnIndex].type != WALL) {
+                if (this::EXIT_CELL.isInitialized)
+                    EXIT_CELL.type = EMPTY
+                EXIT_CELL = labyrinth[rowIndex][columnIndex]
+                EXIT_CELL.type = EXIT
+            }
+        }
+
         fun passLabyrinth(cell: Cell) {
             if (!this::START_CELL.isInitialized) {
-                println("Start cell was not initialized! Default initialization: [1,1]")
-                setStartCell(labyrinth[1][1])
+                println("Enter cell was not initialized! Default initialization: [1,1]")
+                setEnterCell(1, 1)
             }
             if (!this::EXIT_CELL.isInitialized) {
                 with (labyrinth) {
                     println("Exit cell was not initialized! Default initialization: [${size - 2}, ${size - 2}]")
-                    setExitCell(this[size - 2][this[0].size - 2])
+                    setExitCell(size - 2, this[0].size - 2)
                 }
-            }
-            setStartCell(labyrinth[1][1])
-            with (labyrinth) {
-                setExitCell(this[size - 2][this[0].size - 2])
             }
 
             passLabyrinthRecursive(cell)
@@ -112,7 +131,9 @@ object LabyrinthUtilities {
 
         private fun passLabyrinthRecursive(cell: Cell) {
             if (cell.type != EXIT) {
-                cell.type = VISITED
+                if (cell.type !in SERVICE_CELL_TYPES)
+                    cell.type = VISITED
+
                 while (cell.hasNotVisitedNeighbours<PathfinderDirection>()) {
                     with(cell.getNeighbourCells().random()) {
                         previousCellCoordinates = Pair(cell.row, cell.column)
