@@ -132,6 +132,13 @@ class MainView : View("My View") {
     }
 
     private fun configureRightMenu() {
+        with (LabyrinthUtilities.Pathfinder.START_CELL) {
+            enterCellX.text = "$column"; enterCellY.text = "$row"
+        }
+        with (LabyrinthUtilities.Pathfinder.EXIT_CELL) {
+            exitCellX.text = "$column"; exitCellY.text = "$row"
+        }
+
         recreateLabyrinth.onLeftClick {
             if (labyrinthWidth.hasValidInput() && labyrinthHeight.hasValidInput()) {
                 labyrinthInitialization(labyrinthWidth.text.toInt(), labyrinthHeight.text.toInt())
