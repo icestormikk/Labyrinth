@@ -1,16 +1,25 @@
 package com.example.views
 
+import com.example.domain.CellType
 import com.example.utilities.ApplicationUtilities
+import com.example.utilities.EMPTY_CELL_COLOR
 import com.example.utilities.LabyrinthUtilities
 import com.example.utilities.LabyrinthUtilities.getLabyrinth
 import com.example.utilities.LabyrinthUtilities.Builder.labyrinthInitialization
+import com.example.utilities.PATH_CELL_COLOR
+import com.example.utilities.VISITED_CELL_COLOR
+import com.example.utilities.WALL_CELL_COLOR
+import javafx.event.EventHandler
 import javafx.scene.canvas.Canvas
 import javafx.scene.control.Button
+import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
+import javafx.scene.input.MouseButton
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import tornadofx.*
 
 private const val MIN_LABYRINTH_SIZE = 11
@@ -27,8 +36,21 @@ class MainView : View("My View") {
     private val labyrinthWidth: TextField by fxid()
     private val labyrinthHeight: TextField by fxid()
     private val errors: Label by fxid()
+    private val enterCellOutput: Label by fxid()
+    private val exitCellOutput: Label by fxid()
     private val recreateLabyrinth: Button by fxid()
     private val passLabyrinth: Button by fxid()
+    private val emptyCellColor: ColorPicker by fxid()
+    private val wallCellColor: ColorPicker by fxid()
+    private val visitedCellColor: ColorPicker by fxid()
+    private val pathCellColor: ColorPicker by fxid()
+    private val acceptNewColors: Button by fxid()
+    private val clearLabyrinth: Button by fxid()
+    private val serviceButtonsCordsAccept: Button by fxid()
+    private val enterCellX: TextField by fxid()
+    private val enterCellY: TextField by fxid()
+    private val exitCellX: TextField by fxid()
+    private val exitCellY: TextField by fxid()
 
     lateinit var labyrinth: ResizableCanvas
 

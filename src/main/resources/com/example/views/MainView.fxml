@@ -8,7 +8,7 @@
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <FlowPane fx:id="canvasContainer" alignment="CENTER" columnHalignment="CENTER" prefHeight="800.0" prefWidth="660.0" />
-      <VBox fx:id="controlsContainer" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="800.0" prefWidth="426.0" style="-fx-border-color: lightgray; -fx-border-width: 0 0 0 1;">
+      <VBox fx:id="controlsContainer" maxWidth="1.7976931348623157E308" prefWidth="613.0" style="-fx-border-color: lightgray; -fx-border-width: 0 0 0 1;">
          <children>
             <FlowPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
@@ -21,14 +21,10 @@
             </FlowPane>
             <VBox alignment="CENTER" layoutX="21.0" layoutY="47.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="363.0" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
-                  <FlowPane alignment="CENTER" hgap="10.0" prefWidth="200.0">
+                  <FlowPane alignment="CENTER" hgap="10.0">
                      <children>
-                        <Label maxWidth="1.7976931348623157E308" text="Пройти лабиринт">
-                           <font>
-                              <Font name="Calibri" size="20.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="passLabyrinth" mnemonicParsing="false" prefWidth="100.0" text="Запустить" />
+                        <Button fx:id="passLabyrinth" mnemonicParsing="false" text="Пройти лабиринт" />
+                        <Button fx:id="clearLabyrinth" layoutX="318.0" layoutY="10.0" mnemonicParsing="false" text="Очистить лабиринт" />
                      </children>
                   </FlowPane>
                </children>
@@ -36,7 +32,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+            <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="Построить новый лабиринт">
                      <font>
@@ -110,7 +106,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER" layoutX="21.0" layoutY="93.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+            <VBox alignment="CENTER" fillWidth="false" layoutX="21.0" layoutY="93.0" maxHeight="-Infinity" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="Цветовые настройки">
                      <font>
@@ -138,7 +134,7 @@
                               <Insets right="23.0" />
                            </padding>
                         </Label>
-                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                        <ColorPicker fx:id="emptyCellColor" prefHeight="25.0" prefWidth="139.0" />
                      </children>
                   </FlowPane>
                   <FlowPane layoutX="10.0" layoutY="71.0">
@@ -151,7 +147,7 @@
                               <Insets right="113.0" />
                            </padding>
                         </Label>
-                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                        <ColorPicker fx:id="wallCellColor" prefHeight="25.0" prefWidth="139.0" />
                      </children>
                      <VBox.margin>
                         <Insets top="4.0" />
@@ -167,7 +163,7 @@
                               <Insets right="10.0" />
                            </padding>
                         </Label>
-                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                        <ColorPicker fx:id="visitedCellColor" prefHeight="25.0" prefWidth="139.0" />
                      </children>
                      <VBox.margin>
                         <Insets top="4.0" />
@@ -183,7 +179,7 @@
                               <Insets right="30.0" />
                            </padding>
                         </Label>
-                        <ColorPicker prefHeight="25.0" prefWidth="139.0" />
+                        <ColorPicker fx:id="pathCellColor" prefHeight="25.0" prefWidth="139.0" />
                      </children>
                      <VBox.margin>
                         <Insets top="4.0" />
@@ -197,7 +193,7 @@
                         <Insets top="6.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="recreateLabyrinth1" mnemonicParsing="false" text="Применить настройки">
+                  <Button fx:id="acceptNewColors" mnemonicParsing="false" text="Применить настройки">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
@@ -207,7 +203,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER" layoutX="21.0" layoutY="93.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+            <VBox alignment="CENTER" fillWidth="false" layoutX="21.0" layoutY="93.0" maxHeight="-Infinity" style="-fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="Параметры ключевых точек">
                      <font>
@@ -235,7 +231,7 @@
                               <Insets right="1.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="labyrinthWidth1" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
+                        <TextField fx:id="enterCellX" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
                            <font>
                               <Font name="Calibri" size="14.0" />
                            </font>
@@ -248,7 +244,7 @@
                               <Insets right="1.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="labyrinthWidth11" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
+                        <TextField fx:id="enterCellY" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
                            <font>
                               <Font name="Calibri" size="14.0" />
                            </font>
@@ -263,6 +259,14 @@
                         </Label>
                      </children>
                   </FlowPane>
+                  <Label fx:id="enterCellOutput" layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ЛКМ по квадрату на холсте, где хотите разместить начальную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
                   <FlowPane>
                      <children>
                         <Label text="Координаты конечной точки:  " textFill="#6b6b6b">
@@ -281,7 +285,7 @@
                               <Insets right="1.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="labyrinthWidth1" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
+                        <TextField fx:id="exitCellX" alignment="CENTER" prefHeight="27.0" prefWidth="47.0" promptText="X">
                            <font>
                               <Font name="Calibri" size="14.0" />
                            </font>
@@ -294,7 +298,7 @@
                               <Insets right="1.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="labyrinthWidth11" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
+                        <TextField fx:id="exitCellY" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="27.0" prefWidth="47.0" promptText="Y">
                            <font>
                               <Font name="Calibri" size="14.0" />
                            </font>
@@ -309,28 +313,12 @@
                         </Label>
                      </children>
                   </FlowPane>
-                  <Label layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ЛКМ по квадрату на холсте, где хотите разместить начальную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
-                     <font>
-                        <Font name="Calibri" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="109.0" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ПКМ по квадрату на холсте, где хотите разместить конечную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                  <Label fx:id="exitCellOutput" layoutX="10.0" layoutY="109.0" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ПКМ по квадрату на холсте, где хотите разместить конечную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="errors2" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="#d31111">
-                     <font>
-                        <Font name="Calibri" size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="6.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Button fx:id="recreateLabyrinth2" mnemonicParsing="false" prefWidth="100.0" text="Применить">
+                  <Button fx:id="serviceButtonsCordsAccept" mnemonicParsing="false" prefWidth="100.0" text="Применить">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
