@@ -108,6 +108,24 @@ class MainView : View("My View") {
         }
     }
 
+    private fun configureColorPickers() {
+        mapOf(
+            emptyCellColor to EMPTY_CELL_COLOR,
+            wallCellColor to WALL_CELL_COLOR,
+            visitedCellColor to VISITED_CELL_COLOR,
+            pathCellColor to PATH_CELL_COLOR
+        ).forEach { (colorPicker, color) ->
+            colorPicker.value = color
+        }
+
+        acceptNewColors.onLeftClick {
+            EMPTY_CELL_COLOR = emptyCellColor.value
+            WALL_CELL_COLOR = wallCellColor.value
+            VISITED_CELL_COLOR = visitedCellColor.value
+            PATH_CELL_COLOR = pathCellColor.value
+            ApplicationUtilities.updateCanvas()
+        }
+    }
     private fun configureTextFields() {
         labyrinthWidth.text = "${getLabyrinth()[0].size}"
         labyrinthHeight.text = "${getLabyrinth().size}"
