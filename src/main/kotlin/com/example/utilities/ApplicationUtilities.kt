@@ -25,6 +25,17 @@ object ApplicationUtilities {
     fun updateCanvas() =
         graphicsContext.canvas.autosize()
 
+    fun getCellByCoordinates(x: Double, y: Double): Cell? =
+        if (x in 0.0..graphicsContext.canvas.height && y in 0.0..graphicsContext.canvas.height) {
+            val rowIndex = (y / CELL_SIZE).toInt()
+            val columnIndex = (x / CELL_SIZE).toInt()
+            with (LabyrinthUtilities.getLabyrinth()) {
+                if (rowIndex in 0 until this.size && columnIndex in 0 until this[0].size)
+                    this[rowIndex][columnIndex]
+                else null
+            }
+        } else null
+
     fun drawLabyrinthOnScreen(
         labyrinth: Array<Array<Cell>>,
     ) {
