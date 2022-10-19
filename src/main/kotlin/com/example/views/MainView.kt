@@ -52,7 +52,7 @@ class MainView : View("My View") {
     private val exitCellX: TextField by fxid()
     private val exitCellY: TextField by fxid()
 
-    lateinit var labyrinth: ResizableCanvas
+    private lateinit var labyrinth: ResizableCanvas
 
     init {
         with (canvasContainer) {
@@ -85,9 +85,10 @@ class MainView : View("My View") {
             }
             else errors.text = "Некорректный ввод."
         }
-
         passLabyrinth.onLeftClick {
-            LabyrinthUtilities.Pathfinder.passLabyrinth(getLabyrinth()[1][1])
+            with (LabyrinthUtilities.Pathfinder) {
+                passLabyrinth(START_CELL)
+            }
             ApplicationUtilities.updateCanvas()
         }
     }
@@ -98,7 +99,7 @@ class MainView : View("My View") {
 
         with (labyrinth) {
             widthProperty().bind(canvasContainer.widthProperty().multiply(CANVAS_SCALE_MULTIPLIER))
-            heightProperty().bind(canvasContainer.heightProperty())
+            heightProperty().bind(canvasContainer.heightProperty().multiply(CANVAS_SCALE_MULTIPLIER))
         }
 
         canvasContainer.children.add(labyrinth)
