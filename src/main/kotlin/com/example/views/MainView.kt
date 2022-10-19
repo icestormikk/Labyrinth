@@ -154,6 +154,40 @@ class MainView : View("My View") {
             }
             ApplicationUtilities.updateCanvas()
         }
+        clearLabyrinth.onLeftClick {
+            LabyrinthUtilities.Builder.clearLabyrinth()
+            ApplicationUtilities.updateCanvas()
+        }
+        serviceButtonsCordsAccept.onLeftClick {
+            fun Pair<String, String>.isValid(): Boolean =
+                try {
+                    val row = first.toInt(); val column = second.toInt()
+                    row > 0 && row < getLabyrinth().size - 1
+                            && column > 0 && column < getLabyrinth()[0].size - 1
+                            && getLabyrinth()[row][column].type != CellType.WALL
+                } catch (_: NumberFormatException) {
+                    false
+                }
+
+            with (Pair(enterCellX.text, enterCellY.text)) {
+                if (isValid()) {
+                    enterCellOutput.text = ""
+                    LabyrinthUtilities.Pathfinder.setEnterCell(
+                        enterCellX.text.toInt(), enterCellY.text.toInt()
+                    )
+                }
+                else enterCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+            }
+            with (Pair(exitCellX.text, exitCellY.text)) {
+                if (isValid()) {
+                    exitCellOutput.text = ""
+                    LabyrinthUtilities.Pathfinder.setExitCell(
+                        exitCellX.text.toInt(), exitCellY.text.toInt()
+                    )
+                }
+                else exitCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+            }
+        }
     }
 
     private fun configureCanvas() {
@@ -166,6 +200,10 @@ class MainView : View("My View") {
         }
 
         canvasContainer.children.add(labyrinth)
+    }
+
+    private fun Label.coloredMessage(message: String, color: Color) {
+        text = message; textFill = color
     }
 
     private fun TextField.hasValidInput(): Boolean =
