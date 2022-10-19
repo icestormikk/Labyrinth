@@ -68,6 +68,44 @@ class MainView : View("My View") {
         configureCanvas()
         configureRightMenu()
         configureTextFields()
+        configureColorPickers()
+        configureLabyrinthHandlers()
+    }
+
+    private fun configureLabyrinthHandlers() {
+        labyrinth.onMouseClicked = EventHandler {
+            when (it.button) {
+                MouseButton.PRIMARY -> {
+                    with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
+                        if (this != null) {
+                            if (this.type == CellType.EMPTY) {
+                                enterCellOutput.text = ""
+                                LabyrinthUtilities.Pathfinder.setEnterCell(this.row, this.column)
+                                enterCellX.text = "${this.column}"; enterCellY.text = "${this.row}"
+                                ApplicationUtilities.updateCanvas()
+                            } else enterCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                        }
+                    }
+                }
+
+                MouseButton.SECONDARY -> {
+                    with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
+                        if (this != null) {
+                            if (this.type == CellType.EMPTY) {
+                                enterCellOutput.text = ""
+                                LabyrinthUtilities.Pathfinder.setExitCell(this.row, this.column)
+                                exitCellX.text = "${this.column}"; exitCellY.text = "${this.row}"
+                                ApplicationUtilities.updateCanvas()
+                            } else exitCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                        }
+                    }
+                }
+
+                else -> {
+                    // ignore
+                }
+            }
+        }
     }
 
     private fun configureTextFields() {
