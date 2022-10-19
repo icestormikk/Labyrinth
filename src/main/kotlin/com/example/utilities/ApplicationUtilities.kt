@@ -3,8 +3,16 @@ package com.example.utilities
 import com.example.domain.Cell
 import com.example.domain.CellType
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
 import kotlin.properties.Delegates
+
+var EMPTY_CELL_COLOR: Color = Color.WHITE
+var WALL_CELL_COLOR: Color = Color.BLACK
+var VISITED_CELL_COLOR: Color = Color.LIGHTGRAY
+var PATH_CELL_COLOR: Color = Color.RED
+var ENTER_CELL_COLOR: Color = Color.web("#04a60b")
+var EXIT_CELL_COLOR: Color = Color.web("#b60202")
 
 object ApplicationUtilities {
     private var CELL_SIZE by Delegates.notNull<Double>()
@@ -34,12 +42,12 @@ object ApplicationUtilities {
         labyrinth.forEach { row ->
             row.forEach { cell ->
                 graphicsContext.fill = when (cell.type) {
-                    CellType.WALL -> Paint.valueOf("#000000")
-                    CellType.VISITED -> Paint.valueOf("#0000FF")
-                    CellType.ENTER -> Paint.valueOf("#00FF00")
-                    CellType.EXIT -> Paint.valueOf("#FF0000")
-                    CellType.PATH -> Paint.valueOf("#FFFF00")
-                    else -> Paint.valueOf("#FFFFFF")
+                    CellType.WALL -> Paint.valueOf(WALL_CELL_COLOR.toString())
+                    CellType.VISITED -> Paint.valueOf(VISITED_CELL_COLOR.toString())
+                    CellType.ENTER -> Paint.valueOf(ENTER_CELL_COLOR.toString())
+                    CellType.EXIT -> Paint.valueOf(EXIT_CELL_COLOR.toString())
+                    CellType.PATH -> Paint.valueOf(PATH_CELL_COLOR.toString())
+                    else -> Paint.valueOf(EMPTY_CELL_COLOR.toString())
                 }
                 graphicsContext.fillRect(
                     cell.column * CELL_SIZE,
