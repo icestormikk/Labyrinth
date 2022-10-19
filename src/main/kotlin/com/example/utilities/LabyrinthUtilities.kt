@@ -2,7 +2,6 @@ package com.example.utilities
 
 import com.example.configuration.SERVICE_CELL_TYPES
 import com.example.domain.Cell
-import com.example.domain.CellType
 import com.example.domain.CellType.EMPTY
 import com.example.domain.CellType.ENTER
 import com.example.domain.CellType.EXIT
