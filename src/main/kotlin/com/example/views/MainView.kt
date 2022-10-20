@@ -15,6 +15,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
+import javafx.scene.image.Image
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.HBox
@@ -28,7 +29,9 @@ private const val DEFAULT_LABYRINTH_SIZE = 80
 private const val CANVAS_CONTAINER_SCALE_MULTIPLIER = 2.0 / 3
 private const val CONTROLS_CONTAINER_SCALE_MULTIPLIER = 1.0 / 3
 
-class MainView : View("My View") {
+private const val LOGO_PATH = "com/example/static/icons/application_logo.png"
+
+class MainView : View("Labyrinth") {
     override val root: HBox by fxml()
 
     private val canvasContainer: FlowPane by fxid()
@@ -55,6 +58,8 @@ class MainView : View("My View") {
     private lateinit var labyrinth: ResizableCanvas
 
     init {
+        currentStage?.icons?.add(Image(LOGO_PATH))
+
         with (canvasContainer) {
             prefWidthProperty().bind(root.widthProperty().multiply(CANVAS_CONTAINER_SCALE_MULTIPLIER))
             prefHeightProperty().bind(root.heightProperty())
