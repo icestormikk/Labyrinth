@@ -15,7 +15,7 @@ var ENTER_CELL_COLOR: Color = Color.web("#04a60b")
 var EXIT_CELL_COLOR: Color = Color.web("#b60202")
 
 object ApplicationUtilities {
-    var CELL_SIZE by Delegates.notNull<Double>()
+    private var CELL_SIZE by Delegates.notNull<Double>()
     private lateinit var graphicsContext: GraphicsContext
 
     fun initiateContext(context: GraphicsContext) {
