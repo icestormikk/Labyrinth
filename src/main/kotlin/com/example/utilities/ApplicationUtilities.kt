@@ -42,11 +42,11 @@ object ApplicationUtilities {
         if (!this::graphicsContext.isInitialized)
             error("Graphics context is not initialized!")
 
-        CELL_SIZE = if (labyrinth.size > labyrinth[0].size) {
+        CELL_SIZE = if (labyrinth.size >= labyrinth[0].size) {
             minOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth.size
         }
         else {
-            minOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth[0].size
+            maxOf(graphicsContext.canvas.height, graphicsContext.canvas.width) / labyrinth[0].size
         }
 
         graphicsContext.clearRect(0.0,0.0, graphicsContext.canvas.width, graphicsContext.canvas.height)
