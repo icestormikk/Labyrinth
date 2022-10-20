@@ -154,7 +154,8 @@ object LabyrinthUtilities {
             if (cell.type != ENTER) {
                 with (cell.getNeighbourCells<ReturningPathfinderDirection>()) {
                     val nextCell = this.minBy { it.depth }
-                    cell.type = PATH
+                    if (cell.type != EXIT)
+                        cell.type = PATH
                     drawPath(labyrinth[nextCell.row][nextCell.column])
                 }
             }
