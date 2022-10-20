@@ -259,7 +259,7 @@
                         </Label>
                      </children>
                   </FlowPane>
-                  <Label fx:id="enterCellOutput" layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ЛКМ по квадрату на холсте, где хотите разместить начальную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                  <Label fx:id="enterCellOutput" layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="362.0" text="Нажмите один раз ЛКМ по квадрату на холсте, где хотите разместить начальную точку" textFill="#979797" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
@@ -313,7 +313,7 @@
                         </Label>
                      </children>
                   </FlowPane>
-                  <Label fx:id="exitCellOutput" layoutX="10.0" layoutY="109.0" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="362.0" text="ТЕСТОВАЯ ФУНЦИЯ : нажмите один раз ПКМ по квадрату на холсте, где хотите разместить конечную точку" textFill="#1b942b" textOverrun="CLIP" wrapText="true">
+                  <Label fx:id="exitCellOutput" layoutX="10.0" layoutY="109.0" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="362.0" text="Нажмите один раз ПКМ по квадрату на холсте, где хотите разместить конечную точку" textFill="#979797" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
