@@ -134,13 +134,6 @@ object LabyrinthUtilities {
             }
 
             passLabyrinth(START_CELL)
-            /*labyrinth.forEach { row ->
-                row.forEach {
-                    print(String.format(Locale("ru_RU"),"%4s", "${it.depth}"))
-                }
-                println()
-            }
-            println()*/
             drawPath(EXIT_CELL)
         }
         private fun passLabyrinth(cell: Cell) {
