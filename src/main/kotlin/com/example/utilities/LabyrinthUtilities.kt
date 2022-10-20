@@ -42,7 +42,6 @@ object LabyrinthUtilities {
             labyrinth.forEach {
                 it.forEach { cell -> if (cell.type !in SERVICE_CELL_TYPES) cell.type = EMPTY }
             }
-            labyrinth[EXIT_CELL.row][EXIT_CELL.column] = EXIT_CELL
         }
 
         @SuppressWarnings("NestedBlockDepth", "ComplexCondition")
@@ -113,7 +112,7 @@ object LabyrinthUtilities {
             }
         }
 
-        fun passLabyrinth(cell: Cell) {
+        fun passLabyrinth() {
             if (!this::START_CELL.isInitialized) {
                 println("Enter cell was not initialized! Default initialization: [1,1]")
                 setEnterCell(1, 1)
@@ -125,27 +124,37 @@ object LabyrinthUtilities {
                 }
             }
 
-            passLabyrinthRecursive(cell)
+            passLabyrinth(START_CELL)
+            /*labyrinth.forEach { row ->
+                row.forEach {
+                    print(String.format(Locale("ru_RU"),"%4s", "${it.depth}"))
+                }
+                println()
+            }
+            println()*/
+            drawPath(EXIT_CELL)
         }
-
-        private fun passLabyrinthRecursive(cell: Cell) {
-            if (cell.type != EXIT) {
-                if (cell.type !in SERVICE_CELL_TYPES)
-                    cell.type = VISITED
-
-                while (cell.hasNotVisitedNeighbours<PathfinderDirection>()) {
-                    with(cell.getNeighbourCells().random()) {
-                        previousCellCoordinates = Pair(cell.row, cell.column)
-                        passLabyrinthRecursive(this)
+        private fun passLabyrinth(cell: Cell) {
+            cellsQueue.add(cell)
+            while (cellsQueue.isNotEmpty()) {
+                val currentCell = cellsQueue.poll()
+                currentCell.getNeighbourCells<PathfinderDirection>().forEach {
+                    with (it) {
+                        this.depth = currentCell.depth + 1
+                        type = VISITED
+                        cellsQueue.add(this)
                     }
                 }
-            } else drawPath(cell)
+            }
         }
 
         private fun drawPath(cell: Cell) {
-            if (cell.previousCellCoordinates != null) {
-                cell.type = PATH
-                drawPath(labyrinth[cell.previousCellCoordinates!!.first][cell.previousCellCoordinates!!.second])
+            if (cell.type != ENTER) {
+                with (cell.getNeighbourCells<ReturningPathfinderDirection>()) {
+                    val nextCell = this.minBy { it.depth }
+                    cell.type = PATH
+                    drawPath(labyrinth[nextCell.row][nextCell.column])
+                }
             }
         }
     }
