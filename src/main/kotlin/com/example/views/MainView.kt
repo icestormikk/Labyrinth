@@ -92,7 +92,7 @@ class MainView : View("My View") {
                     with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
                         if (this != null) {
                             if (this.type == CellType.EMPTY) {
-                                enterCellOutput.text = ""
+                                exitCellOutput.text = ""
                                 LabyrinthUtilities.Pathfinder.setExitCell(this.row, this.column)
                                 exitCellX.text = "${this.column}"; exitCellY.text = "${this.row}"
                                 ApplicationUtilities.updateCanvas()
