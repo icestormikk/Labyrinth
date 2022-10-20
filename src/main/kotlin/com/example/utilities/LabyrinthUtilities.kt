@@ -19,6 +19,7 @@ import kotlin.math.abs
 
 private const val START_CELL_X = 1
 private const val START_CELL_Y = 1
+private const val RANDOM_BREAKING_WALL_COEF = 0.05
 
 object LabyrinthUtilities {
     private var labyrinth: Array<Array<Cell>> = arrayOf(arrayOf())
@@ -55,7 +56,7 @@ object LabyrinthUtilities {
             do {
                 with (getRandomDirection<BuilderDirection>()) {
                     cell.type = VISITED
-                    if (predicate(labyrinth, cell) || Math.random() < 0.1) {
+                    if (predicate(labyrinth, cell) || Math.random() < RANDOM_BREAKING_WALL_COEF) {
                         if (cell.row + vector.first > 0 && cell.row + vector.first < labyrinth.size &&
                             cell.column + vector.second > 0 && cell.column + vector.second < labyrinth[0].size
                         ) {
