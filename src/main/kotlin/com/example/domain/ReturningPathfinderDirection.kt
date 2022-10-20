@@ -5,6 +5,12 @@ import com.example.configuration.DIRECTION_LEFT_CODE
 import com.example.configuration.DIRECTION_RIGHT_CODE
 import com.example.configuration.DIRECTION_UP_CODE
 
+/**
+ * Directions by which the pathfinder returns to the starting point and builds the optimal path
+ * @property code direction identification number
+ * @property vector a vector indicating which cell relative to the current one the pathfinder will move to
+ * @property predicate checking whether this movement is possible
+ */
 enum class ReturningPathfinderDirection(
     val code: Int,
     val vector: Pair<Int, Int>,

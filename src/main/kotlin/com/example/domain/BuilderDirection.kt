@@ -8,6 +8,12 @@ import com.example.configuration.ALLOWED_CELL_TYPES
 
 private const val DISTANCE = 2
 
+/**
+ * Directions along which the maze builder can move
+ * @property code direction identification number
+ * @property vector a vector indicating which cell relative to the current one the builder will move to
+ * @property predicate checking whether this movement is possible
+ */
 enum class BuilderDirection(
     val code: Int,
     val vector: Pair<Int, Int>,

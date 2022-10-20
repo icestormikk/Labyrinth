@@ -6,6 +6,12 @@ import com.example.configuration.DIRECTION_RIGHT_CODE
 import com.example.configuration.DIRECTION_UP_CODE
 import com.example.configuration.ALLOWED_CELL_TYPES
 
+/**
+ * Directions along which the pathfinder can move
+ * @property code direction identification number
+ * @property vector a vector indicating which cell relative to the current one the pathfinder will move to
+ * @property predicate checking whether this movement is possible
+ */
 enum class PathfinderDirection(
     val code: Int,
     val vector: Pair<Int, Int>,

@@ -21,16 +21,36 @@ private const val START_CELL_X = 1
 private const val START_CELL_Y = 1
 private const val RANDOM_BREAKING_WALL_COEF = 0.05
 
+/**
+ * Functions for managing the state of the maze
+ */
 object LabyrinthUtilities {
     private var labyrinth: Array<Array<Cell>> = arrayOf(arrayOf())
+
+    /**
+     * Stores the completion state of the maze solution
+     */
     var IS_SOLVED = false
         private  set
 
+    /**
+     * Functions for building a maze and other operations not related to finding the way to the exit
+     */
     object Builder {
 
+        /**
+         * Initializing a square maze of size [labyrinthSize] x [labyrinthSize]
+         * @param labyrinthSize the size of the maze
+         */
         fun labyrinthInitialization(labyrinthSize: Int) {
             labyrinthInitialization(labyrinthSize, labyrinthSize)
         }
+
+        /**
+         * Initializing a square maze of size [labyrinthWidth] x [labyrinthHeight]
+         * @param labyrinthWidth desired width of the maze
+         * @param labyrinthHeight desired height of the maze
+         */
         fun labyrinthInitialization(labyrinthWidth: Int, labyrinthHeight: Int) {
             IS_SOLVED = false
             with (createLabyrinthBase(labyrinthWidth, labyrinthHeight)) {
@@ -44,6 +64,9 @@ object LabyrinthUtilities {
             }
         }
 
+        /**
+         * Replacing all maze cells with the [VISITED] or [PATH] type with cells with the [EMPTY] type
+         */
         fun clearLabyrinth() {
             IS_SOLVED = false
             labyrinth.forEach {
@@ -96,13 +119,29 @@ object LabyrinthUtilities {
         }
     }
 
+    /**
+     * Declaration of functions related to finding the path from the [ENTER] cell to the [EXIT] cell
+     */
     object Pathfinder {
         private val cellsQueue: Queue<Cell> = LinkedBlockingQueue()
+
+        /**
+         * The point from which pathfinder starts its journey
+         */
         lateinit var START_CELL: Cell
             private set
+
+        /**
+         * The point at which pathfinder should end its journey
+         */
         lateinit var EXIT_CELL: Cell
             private set
 
+        /**
+         * Sets the starting point
+         * @param rowIndex the number of the line containing the point to be replaced
+         * @param columnIndex the number of the column containing the point to be replaced
+         */
         fun setEnterCell(rowIndex: Int, columnIndex: Int) {
             if (labyrinth[rowIndex][columnIndex].type != WALL) {
                 if (this::START_CELL.isInitialized)
@@ -111,6 +150,11 @@ object LabyrinthUtilities {
                 START_CELL.type = ENTER
             }
         }
+        /**
+         * Sets the final point
+         * @param rowIndex the number of the line containing the point to be replaced
+         * @param columnIndex the number of the column containing the point to be replaced
+         */
         fun setExitCell(rowIndex: Int, columnIndex: Int) {
             if (labyrinth[rowIndex][columnIndex].type != WALL) {
                 if (this::EXIT_CELL.isInitialized)
@@ -120,6 +164,10 @@ object LabyrinthUtilities {
             }
         }
 
+        /**
+         * Start the process of passing through the maze and finding the optimal path from
+         * the [ENTER] point to the [EXIT] point
+         */
         fun passLabyrinth() {
             IS_SOLVED = true
             if (!this::START_CELL.isInitialized) {
@@ -162,6 +210,10 @@ object LabyrinthUtilities {
         }
     }
 
+    /**
+     * Get the current state of the labyrinth
+     * @return Labyrinth
+     */
     fun getLabyrinth() = labyrinth.copyOf()
 
     private inline fun <reified T> Cell.getNeighbourCells(): Collection<Cell> =

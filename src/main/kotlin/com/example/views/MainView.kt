@@ -31,6 +31,34 @@ private const val CONTROLS_CONTAINER_SCALE_MULTIPLIER = 1.0 / 3
 
 private const val LOGO_PATH = "com/example/static/icons/application_logo.png"
 
+/**
+ * А class containing the business logic of the application
+ * @property root root container of the main window
+ * @property canvasContainer canvas storage container
+ * @property controlsContainer a container for storing input tools located on the right side of the application
+ * @property labyrinthWidth text field for changing the width of the maze (in cells)
+ * @property labyrinthHeight text field for changing the height of the maze (in cells)
+ * @property errors label for notification of input errors
+ * @property enterCellOutput a label for notifying the user about successful or unsuccessful processing
+ * of the coordinates of the initial cell
+ * @property exitCellOutput a label for notifying the user about successful or unsuccessful processing
+ * of the coordinates of the finish cell
+ * @property recreateLabyrinth button to build a new maze with updated parameters
+ * @property passLabyrinth the button to start the process of passing the maze
+ * @property emptyCellColor field for selecting the color of cells with the EMPTY type
+ * @property wallCellColor field for selecting the color of cells with the WALL type
+ * @property visitedCellColor field for selecting the color of cells with the VISITED type
+ * @property pathCellColor field for selecting the color of cells with the PATH type
+ * @property acceptNewColors button for updating cell colors
+ * @property clearLabyrinth the button to return the maze to the "not passed" state
+ * @property serviceButtonsCordsAccept button for updating the coordinates of the start and end points
+ * (coordinates are set via fields)
+ * @property enterCellX x-coordinate of the start point
+ * @property enterCellY y-coordinate of the start point
+ * @property exitCellX x-coordinate of the finish point
+ * @property exitCellY y-coordinate of the finish point
+ * @property labyrinth canvas for drawing a maze
+ */
 class MainView : View("Labyrinth") {
     override val root: HBox by fxml()
 
