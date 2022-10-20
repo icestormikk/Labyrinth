@@ -10,8 +10,12 @@ const val DIRECTION_DOWN_CODE = 4
 /**
  * Types of cells through which movement is possible
  */
-val ALLOWED_CELL_TYPES = arrayOf(CellType.EXIT, CellType.EMPTY)
+val ALLOWED_CELL_TYPES = arrayOf(CellType.EMPTY)
 
+/**
+ * Types of cells that can be moved during the return to the starting point
+ */
+val RETURNING_ALLOWED_CELL_TYPES = arrayOf(CellType.VISITED, CellType.ENTER)
 /**
  * Immutable on [CellType.VISITED] cell types
  */
