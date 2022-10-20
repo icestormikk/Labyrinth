@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 javafx {
     modules = listOf("javafx.controls", "javafx.media", "javafx.fxml")
@@ -33,4 +33,22 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("MainKt")
+}
+
+val fatJar = task("fatJar", type = Jar::class) {
+    archiveBaseName.set("${project.name}-fat")
+    manifest {
+        attributes["Implementation-Title"] = "Labyrinth Application"
+        attributes["Implementation-Version"] = "1.0"
+        attributes["Main-Class"] = "com.example.MainKt"
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
+}
+
+tasks {
+    "build" {
+        dependsOn(fatJar)
+    }
 }
