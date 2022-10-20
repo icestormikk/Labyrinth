@@ -10,8 +10,10 @@ import com.example.domain.BuilderDirection
 import com.example.domain.CellType.PATH
 import com.example.domain.CellType.WALL
 import com.example.domain.PathfinderDirection
-import com.example.utilities.LabyrinthUtilities.Pathfinder.EXIT_CELL
+import com.example.domain.ReturningPathfinderDirection
 import tornadofx.*
+import java.util.Queue
+import java.util.concurrent.LinkedBlockingQueue
 import kotlin.error
 import kotlin.math.abs
 
@@ -90,6 +92,7 @@ object LabyrinthUtilities {
     }
 
     object Pathfinder {
+        private val cellsQueue: Queue<Cell> = LinkedBlockingQueue()
         lateinit var START_CELL: Cell
             private set
         lateinit var EXIT_CELL: Cell
