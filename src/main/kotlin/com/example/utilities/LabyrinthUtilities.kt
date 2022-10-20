@@ -22,6 +22,8 @@ private const val START_CELL_Y = 1
 
 object LabyrinthUtilities {
     private var labyrinth: Array<Array<Cell>> = arrayOf(arrayOf())
+    var IS_SOLVED = false
+        private  set
 
     object Builder {
 
@@ -29,6 +31,7 @@ object LabyrinthUtilities {
             labyrinthInitialization(labyrinthSize, labyrinthSize)
         }
         fun labyrinthInitialization(labyrinthWidth: Int, labyrinthHeight: Int) {
+            IS_SOLVED = false
             with (createLabyrinthBase(labyrinthWidth, labyrinthHeight)) {
                 labyrinth = this
                 fillLabyrinth(this[START_CELL_X][START_CELL_Y])
@@ -41,6 +44,7 @@ object LabyrinthUtilities {
         }
 
         fun clearLabyrinth() {
+            IS_SOLVED = false
             labyrinth.forEach {
                 it.forEach { cell -> if (cell.type !in SERVICE_CELL_TYPES) cell.type = EMPTY }
             }
@@ -116,6 +120,7 @@ object LabyrinthUtilities {
         }
 
         fun passLabyrinth() {
+            IS_SOLVED = true
             if (!this::START_CELL.isInitialized) {
                 println("Enter cell was not initialized! Default initialization: [1,1]")
                 setEnterCell(1, 1)
