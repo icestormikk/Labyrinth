@@ -131,6 +131,7 @@ class MainView : View("My View") {
         labyrinthHeight.text = "${getLabyrinth().size}"
     }
 
+    @SuppressWarnings("ComplexMethod")
     private fun configureRightMenu() {
         with (LabyrinthUtilities.Pathfinder.START_CELL) {
             enterCellX.text = "$column"; enterCellY.text = "$row"
@@ -150,7 +151,7 @@ class MainView : View("My View") {
         }
         passLabyrinth.onLeftClick {
             with (LabyrinthUtilities.Pathfinder) {
-                passLabyrinth(START_CELL)
+                passLabyrinth()
             }
             ApplicationUtilities.updateCanvas()
         }
