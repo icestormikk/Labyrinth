@@ -23,7 +23,7 @@ import javafx.scene.paint.Color
 import tornadofx.*
 
 private const val MIN_LABYRINTH_SIZE = 11
-private const val CANVAS_SCALE_MULTIPLIER = 0.9
+private const val CANVAS_SCALE_MULTIPLIER = 0.98
 private const val DEFAULT_LABYRINTH_SIZE = 80
 private const val CANVAS_CONTAINER_SCALE_MULTIPLIER = 2.0 / 3
 private const val CONTROLS_CONTAINER_SCALE_MULTIPLIER = 1.0 / 3
@@ -76,31 +76,33 @@ class MainView : View("My View") {
         labyrinth.onMouseClicked = EventHandler {
             when (it.button) {
                 MouseButton.PRIMARY -> {
-                    with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
-                        if (this != null) {
-                            if (this.type == CellType.EMPTY) {
-                                enterCellOutput.text = ""
-                                LabyrinthUtilities.Pathfinder.setEnterCell(this.row, this.column)
-                                enterCellX.text = "${this.column}"; enterCellY.text = "${this.row}"
-                                ApplicationUtilities.updateCanvas()
-                            } else enterCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                    if (!LabyrinthUtilities.IS_SOLVED) {
+                        with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
+                            if (this != null) {
+                                if (this.type == CellType.EMPTY) {
+                                    enterCellOutput.text = ""
+                                    LabyrinthUtilities.Pathfinder.setEnterCell(this.row, this.column)
+                                    enterCellX.text = "${this.column}"; enterCellY.text = "${this.row}"
+                                    ApplicationUtilities.updateCanvas()
+                                } else enterCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                            }
                         }
                     }
                 }
-
                 MouseButton.SECONDARY -> {
-                    with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
-                        if (this != null) {
-                            if (this.type == CellType.EMPTY) {
-                                exitCellOutput.text = ""
-                                LabyrinthUtilities.Pathfinder.setExitCell(this.row, this.column)
-                                exitCellX.text = "${this.column}"; exitCellY.text = "${this.row}"
-                                ApplicationUtilities.updateCanvas()
-                            } else exitCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                    if (!LabyrinthUtilities.IS_SOLVED) {
+                        with(ApplicationUtilities.getCellByCoordinates(it.x, it.y)) {
+                            if (this != null) {
+                                if (this.type == CellType.EMPTY) {
+                                    exitCellOutput.text = ""
+                                    LabyrinthUtilities.Pathfinder.setExitCell(this.row, this.column)
+                                    exitCellX.text = "${this.column}"; exitCellY.text = "${this.row}"
+                                    ApplicationUtilities.updateCanvas()
+                                } else exitCellOutput.coloredMessage("Недопустимая клетка.", Color.RED)
+                            }
                         }
                     }
                 }
-
                 else -> {
                     // ignore
                 }
@@ -145,7 +147,8 @@ class MainView : View("My View") {
                 labyrinthInitialization(labyrinthWidth.text.toInt(), labyrinthHeight.text.toInt())
                 errors.text = ""
                 labyrinth.autosize()
-                configureTextFields()
+                configureTextFields(); configureRightMenu()
+                passLabyrinth.isDisable = false
             }
             else errors.text = "Некорректный ввод."
         }
@@ -154,10 +157,12 @@ class MainView : View("My View") {
                 passLabyrinth()
             }
             ApplicationUtilities.updateCanvas()
+            passLabyrinth.isDisable = true
         }
         clearLabyrinth.onLeftClick {
             LabyrinthUtilities.Builder.clearLabyrinth()
             ApplicationUtilities.updateCanvas()
+            passLabyrinth.isDisable = false
         }
         serviceButtonsCordsAccept.onLeftClick {
             fun Pair<String, String>.isValid(): Boolean =
@@ -171,22 +176,29 @@ class MainView : View("My View") {
                 }
 
             with (Pair(enterCellX.text, enterCellY.text)) {
-                if (isValid()) {
-                    enterCellOutput.text = ""
-                    LabyrinthUtilities.Pathfinder.setEnterCell(
-                        enterCellX.text.toInt(), enterCellY.text.toInt()
-                    )
-                }
-                else enterCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+                if (!LabyrinthUtilities.IS_SOLVED) {
+                    if (isValid()) {
+                        enterCellOutput.text = ""
+                        LabyrinthUtilities.Pathfinder.setEnterCell(
+                            enterCellY.text.toInt(), enterCellX.text.toInt()
+                        )
+                    }
+                    else enterCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+                } else enterCellOutput.coloredMessage(
+                    "Вы не можете изменять клетки в решённом лабиринте.", Color.RED
+                )
             }
             with (Pair(exitCellX.text, exitCellY.text)) {
-                if (isValid()) {
-                    exitCellOutput.text = ""
-                    LabyrinthUtilities.Pathfinder.setExitCell(
-                        exitCellX.text.toInt(), exitCellY.text.toInt()
-                    )
-                }
-                else exitCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+                if (!LabyrinthUtilities.IS_SOLVED) {
+                    if (isValid()) {
+                        exitCellOutput.text = ""
+                        LabyrinthUtilities.Pathfinder.setExitCell(
+                            exitCellY.text.toInt(), exitCellX.text.toInt()
+                        )
+                    } else exitCellOutput.coloredMessage("Введены недопустимые значения!", Color.RED)
+                } else exitCellOutput.coloredMessage(
+                    "Вы не можете изменять клетки в решённом лабиринте.", Color.RED
+                )
             }
         }
     }
