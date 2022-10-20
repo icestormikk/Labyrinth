@@ -164,10 +164,20 @@ object LabyrinthUtilities {
 
     fun getLabyrinth() = labyrinth.copyOf()
 
-    private fun Cell.getNeighbourCells(): Collection<Cell> =
-        PathfinderDirection.values().filter {
-            it.predicate(labyrinth, this)
-        }.map { labyrinth[this.row + it.vector.first][this.column + it.vector.second] }
+    private inline fun <reified T> Cell.getNeighbourCells(): Collection<Cell> =
+        when (T::class) {
+            PathfinderDirection::class -> {
+                PathfinderDirection.values().filter {
+                    it.predicate(labyrinth, this)
+                }.map { labyrinth[this.row + it.vector.first][this.column + it.vector.second] }
+            }
+            ReturningPathfinderDirection::class -> {
+                ReturningPathfinderDirection.values().filter {
+                    it.predicate(labyrinth, this)
+                }.map { labyrinth[this.row + it.vector.first][this.column + it.vector.second] }
+            }
+            else -> error("ERROR")
+        }
 
     private inline fun <reified T> Cell.hasNotVisitedNeighbours(): Boolean =
         when (T::class) {
