@@ -87,6 +87,9 @@ class MainView : View("Labyrinth") {
 
     init {
         currentStage?.icons?.add(Image(LOGO_PATH))
+        currentStage?.apply {
+            minHeight = 800.0; minWidth = 1200.0
+        }
 
         with (canvasContainer) {
             prefWidthProperty().bind(root.widthProperty().multiply(CANVAS_CONTAINER_SCALE_MULTIPLIER))
