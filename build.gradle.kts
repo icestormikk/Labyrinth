@@ -32,7 +32,7 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("com.example.MainKt")
 }
 
 val fatJar = task("fatJar", type = Jar::class) {
